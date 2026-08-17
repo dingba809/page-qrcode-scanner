@@ -1,0 +1,152 @@
+{
+  "extName": {
+    "message": "页面二维码扫描器"
+  },
+  "extDescription": {
+    "message": "扫描当前网页中的二维码并转换为 URL，多个二维码可手动选择。"
+  },
+  "actionTitle": {
+    "message": "扫描网页二维码"
+  },
+  "popupTitle": {
+    "message": "提取当前页二维码"
+  },
+  "manualButton": {
+    "message": "框选识别"
+  },
+  "rescanButton": {
+    "message": "重新扫描"
+  },
+  "scanning": {
+    "message": "正在扫描当前页面..."
+  },
+  "copySelected": {
+    "message": "复制选中"
+  },
+  "openSelected": {
+    "message": "打开选中"
+  },
+  "noQrFound": {
+    "message": "没有识别到二维码"
+  },
+  "noQrFoundHint": {
+    "message": "请确认页面中的二维码以图片或画布形式显示，然后重新扫描。"
+  },
+  "unableToGetTab": {
+    "message": "无法获取当前标签页，请重试。"
+  },
+  "scanFailed": {
+    "message": "扫描失败：$1"
+  },
+  "scanFailedBasic": {
+    "message": "扫描失败"
+  },
+  "pageNotSupported": {
+    "message": "当前页面不支持扫描，请刷新页面后重试。"
+  },
+  "unableToScan": {
+    "message": "无法完成扫描"
+  },
+  "restrictedPageHint": {
+    "message": "Chrome 内部页面或部分受限页面不能注入扫描脚本。"
+  },
+  "foundQrCodes": {
+    "message": "识别到 $1 个二维码"
+  },
+  "selectHint": {
+    "message": "点击二维码进行选择"
+  },
+  "sourceImage": {
+    "message": "图片"
+  },
+  "sourceCanvas": {
+    "message": "画布"
+  },
+  "sourceScreenshot": {
+    "message": "截图"
+  },
+  "badgeUrl": {
+    "message": "URL"
+  },
+  "badgeText": {
+    "message": "文本"
+  },
+  "copied": {
+    "message": "已复制到剪贴板"
+  },
+  "copyFailed": {
+    "message": "复制失败，请手动复制"
+  },
+  "capturingScreen": {
+    "message": "页面元素中未找到，正在截取当前屏幕识别..."
+  },
+  "screenshotScanFailed": {
+    "message": "截图识别失败"
+  },
+  "captureFailed": {
+    "message": "屏幕截图失败"
+  },
+  "imageSchemeUnsupported": {
+    "message": "仅支持 http(s) 图片"
+  },
+  "imageFetchFailed": {
+    "message": "图片请求失败（HTTP $1）"
+  },
+  "imageTooLarge": {
+    "message": "图片超过 25MB，已跳过"
+  },
+  "imageGrabFailed": {
+    "message": "图片抓取失败"
+  },
+  "imageReadFailed": {
+    "message": "图片读取失败"
+  },
+  "manualNotSupported": {
+    "message": "当前页面不支持框选，请刷新页面后重试。"
+  },
+  "dragHint": {
+    "message": "拖拽框选二维码区域，按 Esc 取消"
+  },
+  "areaTooSmall": {
+    "message": "框选区域太小，请重新框选。"
+  },
+  "processingArea": {
+    "message": "正在处理框选区域"
+  },
+  "manualFailed": {
+    "message": "手动识别失败，请重试。"
+  },
+  "selectAgain": {
+    "message": "重新框选"
+  },
+  "done": {
+    "message": "完成"
+  },
+  "copy": {
+    "message": "复制"
+  },
+  "copiedShort": {
+    "message": "已复制"
+  },
+  "copyFailedShort": {
+    "message": "复制失败"
+  },
+  "open": {
+    "message": "打开"
+  },
+  "notice": {
+    "message": "提示"
+  },
+  "close": {
+    "message": "关闭"
+  },
+  "scanningLabel": {
+    "message": "正在识别..."
+  },
+  "qrPreview": {
+    "message": "二维码预览"
+  },
+  "noQrInSelection": {
+    "message": "请重新框选二维码区域。"
+  }
+}

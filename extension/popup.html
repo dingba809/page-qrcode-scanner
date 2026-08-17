@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>页面二维码扫描器</title>
+    <title data-i18n="extName">页面二维码扫描器</title>
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
     <header class="app-header">
       <div class="heading">
-        <div class="eyebrow">页面二维码扫描器</div>
-        <h1>提取当前页二维码</h1>
+        <div class="eyebrow" data-i18n="extName">页面二维码扫描器</div>
+        <h1 data-i18n="popupTitle">提取当前页二维码</h1>
       </div>
       <div class="header-actions">
-        <button id="manualButton" class="manual-button" type="button">框选识别</button>
-        <button id="scanButton" class="icon-button" type="button" title="重新扫描" aria-label="重新扫描">
+        <button id="manualButton" class="manual-button" type="button" data-i18n="manualButton">框选识别</button>
+        <button id="scanButton" class="icon-button" type="button" title="重新扫描" aria-label="重新扫描" data-i18n-title="rescanButton" data-i18n-aria-label="rescanButton">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M20 11a8 8 0 1 0-2.34 5.66" />
             <path d="M20 5v6h-6" />
@@ -24,18 +24,18 @@
     </header>
 
     <main>
-      <div id="status" class="status" role="status" aria-live="polite">正在扫描当前页面...</div>
+      <div id="status" class="status" role="status" aria-live="polite" data-i18n="scanning">正在扫描当前页面...</div>
       <div id="summary" class="summary" hidden></div>
       <section id="results" class="results" aria-live="polite"></section>
       <div id="empty" class="empty" hidden>
-        <div class="empty-title">没有识别到二维码</div>
-        <p>请确认页面中的二维码以图片或画布形式显示，然后重新扫描。</p>
+        <div class="empty-title" data-i18n="noQrFound">没有识别到二维码</div>
+        <p data-i18n="noQrFoundHint">请确认页面中的二维码以图片或画布形式显示，然后重新扫描。</p>
       </div>
     </main>
 
     <footer class="footer">
-      <button id="copyButton" class="secondary" type="button" disabled>复制选中</button>
-      <button id="openButton" class="primary" type="button" disabled>打开选中</button>
+      <button id="copyButton" class="secondary" type="button" disabled data-i18n="copySelected">复制选中</button>
+      <button id="openButton" class="primary" type="button" disabled data-i18n="openSelected">打开选中</button>
     </footer>
 
     <script src="popup.js"></script>

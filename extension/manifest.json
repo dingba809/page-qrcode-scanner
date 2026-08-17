@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "页面二维码扫描器",
+  "default_locale": "zh_CN",
+  "name": "__MSG_extName__",
   "version": "1.0.0",
-  "description": "扫描当前网页中的二维码并转换为 URL，多个二维码可手动选择。",
+  "description": "__MSG_extDescription__",
   "permissions": [
     "clipboardWrite"
   ],
@@ -13,7 +14,7 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_title": "扫描网页二维码",
+    "default_title": "__MSG_actionTitle__",
     "default_popup": "popup.html"
   },
   "content_scripts": [

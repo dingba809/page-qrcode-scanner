@@ -4,13 +4,28 @@ const state = {
 };
 
 const elements = {};
+const t = (key, substitutions) => chrome.i18n.getMessage(key, substitutions) || key;
 
 document.addEventListener("DOMContentLoaded", initialize);
 
 async function initialize() {
+  applyStaticTranslations();
+  document.documentElement.lang = chrome.i18n.getUILanguage();
   cacheElements();
   bindEvents();
   await scanPage();
+}
+
+function applyStaticTranslations() {
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    element.textContent = t(element.dataset.i18n);
+  });
+  document.querySelectorAll("[data-i18n-title]").forEach((element) => {
+    element.title = t(element.dataset.i18nTitle);
+  });
+  document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
+    element.setAttribute("aria-label", t(element.dataset.i18nAriaLabel));
+  });
 }
 
 function cacheElements() {
@@ -34,14 +49,14 @@ function bindEvents() {
 async function startManualSelection() {
   const tab = await getActiveTab();
   if (!tab?.id) {
-    setStatus("无法获取当前标签页，请重试。", "error");
+    setStatus(t("unableToGetTab"), "error");
     return;
   }
 
   try {
     await chrome.tabs.sendMessage(tab.id, { type: "START_REGION_SELECT" });
   } catch (_error) {
-    setStatus("当前页面不支持框选，请刷新页面后重试。", "error");
+    setStatus(t("manualNotSupported"), "error");
     return;
   }
 
@@ -49,7 +64,7 @@ async function startManualSelection() {
 }
 
 async function scanPage() {
-  setStatus("正在扫描当前页面...", "loading");
+  setStatus(t("scanning"), "loading");
   setSummary("");
   hideEmpty();
   clearResults();
@@ -57,14 +72,14 @@ async function scanPage() {
 
   const tab = await getActiveTab();
   if (!tab?.id) {
-    setStatus("无法获取当前标签页，请重试。", "error");
+    setStatus(t("unableToGetTab"), "error");
     return;
   }
 
   try {
     const response = await chrome.tabs.sendMessage(tab.id, { type: "SCAN_QR_CODES" });
     if (!response?.ok) {
-      throw new Error(response?.error || "扫描失败");
+      throw new Error(response?.error || t("scanFailedBasic"));
     }
 
     const domResults = response.results || [];
@@ -77,16 +92,16 @@ async function scanPage() {
   } catch (error) {
     const message = chrome.runtime.lastError?.message || error.message || String(error);
     if (/Receiving end does not exist/i.test(message)) {
-      setStatus("当前页面不支持扫描，请刷新页面后重试。", "error");
+      setStatus(t("pageNotSupported"), "error");
     } else {
-      setStatus(`扫描失败：${message}`, "error");
+      setStatus(t("scanFailed", [message]), "error");
     }
-    showEmpty("无法完成扫描", "Chrome 内部页面或部分受限页面不能注入扫描脚本。");
+    showEmpty(t("unableToScan"), t("restrictedPageHint"));
   }
 }
 
 async function scanVisibleArea(tab) {
-  setStatus("页面元素中未找到，正在截取当前屏幕识别...", "loading");
+  setStatus(t("capturingScreen"), "loading");
 
   let dataUrl;
   try {
@@ -102,7 +117,7 @@ async function scanVisibleArea(tab) {
   });
 
   if (!response?.ok) {
-    throw new Error(response?.error || "截图识别失败");
+    throw new Error(response?.error || t("screenshotScanFailed"));
   }
 
   renderResults(response.results || []);
@@ -118,13 +133,13 @@ function renderResults(results) {
   state.selectedIndex = results.length === 1 ? 0 : -1;
 
   if (!results.length) {
-    setStatus("没有识别到二维码", "success");
-    showEmpty("没有识别到二维码", "请确认页面中的二维码以图片或画布形式显示，然后重新扫描。");
+    setStatus(t("noQrFound"), "success");
+    showEmpty(t("noQrFound"), t("noQrFoundHint"));
     return;
   }
 
-  setStatus(`识别到 ${results.length} 个二维码`, "success");
-  setSummary("点击二维码进行选择");
+  setStatus(t("foundQrCodes", [String(results.length)]), "success");
+  setSummary(t("selectHint"));
   hideEmpty();
   clearResults();
 
@@ -155,7 +170,7 @@ function createResultRow(result, index) {
   if (result.thumbnail) {
     const image = document.createElement("img");
     image.src = result.thumbnail;
-    image.alt = "二维码预览";
+    image.alt = t("qrPreview");
     thumb.appendChild(image);
   } else {
     const fallback = document.createElement("span");
@@ -172,12 +187,16 @@ function createResultRow(result, index) {
 
   const badge = document.createElement("span");
   badge.className = `badge ${url ? "url" : "text"}`;
-  badge.textContent = url ? "URL" : "文本";
+  badge.textContent = url ? t("badgeUrl") : t("badgeText");
 
   const source = document.createElement("span");
   source.className = "source";
   const sourceName =
-    result.source === "canvas" ? "画布" : result.source === "screenshot" ? "截图" : "图片";
+    result.source === "canvas"
+      ? t("sourceCanvas")
+      : result.source === "screenshot"
+        ? t("sourceScreenshot")
+        : t("sourceImage");
   source.textContent = `${sourceName} · ${result.width}×${result.height}`;
 
   topline.append(badge, source);
@@ -219,7 +238,7 @@ async function copySelected() {
   }
 
   const success = await copyText(selected.text);
-  setStatus(success ? "已复制到剪贴板" : "复制失败，请手动复制", success ? "success" : "error");
+  setStatus(success ? t("copied") : t("copyFailed"), success ? "success" : "error");
 }
 
 async function openSelected() {

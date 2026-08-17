@@ -1,0 +1,152 @@
+{
+  "extName": {
+    "message": "Page QR Code Scanner"
+  },
+  "extDescription": {
+    "message": "Scan QR codes on the current page and convert them to URLs. Choose manually when multiple codes are found."
+  },
+  "actionTitle": {
+    "message": "Scan page QR codes"
+  },
+  "popupTitle": {
+    "message": "Extract QR codes from this page"
+  },
+  "manualButton": {
+    "message": "Select area"
+  },
+  "rescanButton": {
+    "message": "Rescan"
+  },
+  "scanning": {
+    "message": "Scanning current page..."
+  },
+  "copySelected": {
+    "message": "Copy selected"
+  },
+  "openSelected": {
+    "message": "Open selected"
+  },
+  "noQrFound": {
+    "message": "No QR code found"
+  },
+  "noQrFoundHint": {
+    "message": "Make sure the QR code is displayed as an image or canvas, then scan again."
+  },
+  "unableToGetTab": {
+    "message": "Unable to get the current tab. Please try again."
+  },
+  "scanFailed": {
+    "message": "Scan failed: $1"
+  },
+  "scanFailedBasic": {
+    "message": "Scan failed"
+  },
+  "pageNotSupported": {
+    "message": "This page does not support scanning. Refresh and try again."
+  },
+  "unableToScan": {
+    "message": "Unable to scan"
+  },
+  "restrictedPageHint": {
+    "message": "Chrome internal pages or some restricted pages cannot run the scanner."
+  },
+  "foundQrCodes": {
+    "message": "Found $1 QR codes"
+  },
+  "selectHint": {
+    "message": "Click a QR code to select it"
+  },
+  "sourceImage": {
+    "message": "Image"
+  },
+  "sourceCanvas": {
+    "message": "Canvas"
+  },
+  "sourceScreenshot": {
+    "message": "Screenshot"
+  },
+  "badgeUrl": {
+    "message": "URL"
+  },
+  "badgeText": {
+    "message": "Text"
+  },
+  "copied": {
+    "message": "Copied to clipboard"
+  },
+  "copyFailed": {
+    "message": "Copy failed, please copy manually"
+  },
+  "capturingScreen": {
+    "message": "No page element found; capturing the visible area..."
+  },
+  "screenshotScanFailed": {
+    "message": "Screenshot scan failed"
+  },
+  "captureFailed": {
+    "message": "Screen capture failed"
+  },
+  "imageSchemeUnsupported": {
+    "message": "Only http(s) images are supported"
+  },
+  "imageFetchFailed": {
+    "message": "Image request failed (HTTP $1)"
+  },
+  "imageTooLarge": {
+    "message": "Image exceeds 25MB, skipped"
+  },
+  "imageGrabFailed": {
+    "message": "Failed to fetch image"
+  },
+  "imageReadFailed": {
+    "message": "Failed to read image"
+  },
+  "manualNotSupported": {
+    "message": "This page does not support area selection. Refresh and try again."
+  },
+  "dragHint": {
+    "message": "Drag to select the QR code area. Press Esc to cancel."
+  },
+  "areaTooSmall": {
+    "message": "The selected area is too small. Please try again."
+  },
+  "processingArea": {
+    "message": "Processing selected area..."
+  },
+  "manualFailed": {
+    "message": "Manual scan failed. Please try again."
+  },
+  "selectAgain": {
+    "message": "Select again"
+  },
+  "done": {
+    "message": "Done"
+  },
+  "copy": {
+    "message": "Copy"
+  },
+  "copiedShort": {
+    "message": "Copied"
+  },
+  "copyFailedShort": {
+    "message": "Copy failed"
+  },
+  "open": {
+    "message": "Open"
+  },
+  "notice": {
+    "message": "Notice"
+  },
+  "close": {
+    "message": "Close"
+  },
+  "scanningLabel": {
+    "message": "Scanning..."
+  },
+  "qrPreview": {
+    "message": "QR code preview"
+  },
+  "noQrInSelection": {
+    "message": "Select the QR code area again."
+  }
+}

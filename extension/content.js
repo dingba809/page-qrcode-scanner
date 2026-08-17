@@ -8,6 +8,7 @@
   const MAX_CANDIDATES = 120;
   const MAX_CODES_PER_IMAGE = 12;
   const ITEM_TIMEOUT_MS = 12000;
+  const t = (key, substitutions) => chrome.i18n.getMessage(key, substitutions) || key;
 
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     if (message?.type === "SCAN_QR_CODES") {
@@ -242,7 +243,7 @@
 
     const response = await chrome.runtime.sendMessage({ type: "FETCH_IMAGE", url: src });
     if (!response?.ok) {
-      throw new Error(response?.error || "图片抓取失败");
+      throw new Error(response?.error || t("imageGrabFailed"));
     }
 
     const blob = new Blob([response.data], {
@@ -254,7 +255,7 @@
   async function fetchDirect(src) {
     const response = await fetch(src);
     if (!response.ok) {
-      throw new Error("图片读取失败");
+      throw new Error(t("imageReadFailed"));
     }
     return response.blob();
   }
@@ -402,7 +403,7 @@
 
     const toolbar = document.createElement("div");
     toolbar.className = "qrs-manual-toolbar";
-    toolbar.textContent = "拖拽框选二维码区域，按 Esc 取消";
+    toolbar.textContent = t("dragHint");
 
     const selection = document.createElement("div");
     selection.className = "qrs-manual-selection";
@@ -473,7 +474,7 @@
       stopSelection();
 
       if (rect.width < 8 || rect.height < 8) {
-        showManualMessage("框选区域太小，请重新框选。");
+        showManualMessage(t("areaTooSmall"));
         return;
       }
 
@@ -489,13 +490,13 @@
     try {
       const captureResponse = await chrome.runtime.sendMessage({ type: "CAPTURE_VISIBLE_TAB" });
       if (!captureResponse?.ok) {
-        throw new Error(captureResponse?.error || "屏幕截图失败");
+        throw new Error(captureResponse?.error || t("captureFailed"));
       }
 
       const results = await decodeRegionFromScreenshot(captureResponse.dataUrl, rect);
       showManualResults(results);
     } catch (error) {
-      showManualMessage(error.message || "手动识别失败，请重试。");
+      showManualMessage(error.message || t("manualFailed"));
     }
   }
 
@@ -549,10 +550,12 @@
     panel.className = "qrs-manual-panel";
     panel.innerHTML = `
       <div class="qrs-manual-panel-header">
-        <div class="qrs-manual-panel-title">正在识别...</div>
+        <div class="qrs-manual-panel-title"></div>
       </div>
-      <div class="qrs-manual-state">正在处理框选区域</div>
+      <div class="qrs-manual-state"></div>
     `;
+    panel.querySelector(".qrs-manual-panel-title").textContent = t("scanningLabel");
+    panel.querySelector(".qrs-manual-state").textContent = t("processingArea");
     document.documentElement.appendChild(panel);
   }
 
@@ -567,12 +570,12 @@
 
     const title = document.createElement("div");
     title.className = "qrs-manual-panel-title";
-    title.textContent = results.length ? `识别到 ${results.length} 个二维码` : "未识别到二维码";
+    title.textContent = results.length ? t("foundQrCodes", [String(results.length)]) : t("noQrFound");
 
     const closeButton = document.createElement("button");
     closeButton.className = "qrs-manual-close";
     closeButton.type = "button";
-    closeButton.textContent = "关闭";
+    closeButton.textContent = t("close");
     closeButton.addEventListener("click", removeManualPanel);
 
     header.append(title, closeButton);
@@ -581,7 +584,7 @@
     if (!results.length) {
       const state = document.createElement("div");
       state.className = "qrs-manual-state";
-      state.textContent = "请重新框选二维码区域。";
+      state.textContent = t("noQrInSelection");
       panel.appendChild(state);
     } else {
       const list = document.createElement("div");
@@ -600,7 +603,7 @@
     const againButton = document.createElement("button");
     againButton.className = "qrs-manual-button";
     againButton.type = "button";
-    againButton.textContent = "重新框选";
+    againButton.textContent = t("selectAgain");
     againButton.addEventListener("click", () => {
       removeManualPanel();
       startRegionSelection();
@@ -609,7 +612,7 @@
     const closeBottomButton = document.createElement("button");
     closeBottomButton.className = "qrs-manual-button primary";
     closeBottomButton.type = "button";
-    closeBottomButton.textContent = "完成";
+    closeBottomButton.textContent = t("done");
     closeBottomButton.addEventListener("click", removeManualPanel);
 
     actions.append(againButton, closeBottomButton);
@@ -627,7 +630,7 @@
     if (result.thumbnail) {
       const image = document.createElement("img");
       image.src = result.thumbnail;
-      image.alt = "二维码预览";
+      image.alt = t("qrPreview");
       thumb.appendChild(image);
     } else {
       thumb.textContent = "QR";
@@ -648,12 +651,12 @@
     const copyButton = document.createElement("button");
     copyButton.className = "qrs-manual-button";
     copyButton.type = "button";
-    copyButton.textContent = "复制";
+    copyButton.textContent = t("copy");
     copyButton.addEventListener("click", async () => {
       const copied = await copyTextManual(result.text);
-      copyButton.textContent = copied ? "已复制" : "复制失败";
+      copyButton.textContent = copied ? t("copiedShort") : t("copyFailedShort");
       setTimeout(() => {
-        copyButton.textContent = "复制";
+        copyButton.textContent = t("copy");
       }, 1200);
     });
 
@@ -663,7 +666,7 @@
       const openButton = document.createElement("button");
       openButton.className = "qrs-manual-button primary";
       openButton.type = "button";
-      openButton.textContent = "打开";
+      openButton.textContent = t("open");
       openButton.addEventListener("click", () => {
         window.open(url, "_blank", "noopener,noreferrer");
       });
@@ -682,17 +685,21 @@
     panel.className = "qrs-manual-panel";
     panel.innerHTML = `
       <div class="qrs-manual-panel-header">
-        <div class="qrs-manual-panel-title">提示</div>
-        <button class="qrs-manual-close" type="button">关闭</button>
+        <div class="qrs-manual-panel-title"></div>
+        <button class="qrs-manual-close" type="button"></button>
       </div>
       <div class="qrs-manual-state"></div>
       <div class="qrs-manual-panel-actions">
-        <button class="qrs-manual-button" type="button">重新框选</button>
-        <button class="qrs-manual-button primary" type="button">完成</button>
+        <button class="qrs-manual-button" type="button"></button>
+        <button class="qrs-manual-button primary" type="button"></button>
       </div>
     `;
 
+    panel.querySelector(".qrs-manual-panel-title").textContent = t("notice");
+    panel.querySelector(".qrs-manual-close").textContent = t("close");
     panel.querySelector(".qrs-manual-state").textContent = message;
+    panel.querySelector(".qrs-manual-button").textContent = t("selectAgain");
+    panel.querySelector(".qrs-manual-button.primary").textContent = t("done");
     panel.querySelector(".qrs-manual-close").addEventListener("click", removeManualPanel);
     panel.querySelector(".qrs-manual-button").addEventListener("click", () => {
       removeManualPanel();
