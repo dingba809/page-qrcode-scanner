@@ -1,5 +1,7 @@
 # Page QR Code Scanner
 
+English: [README.en.md](README.en.md)
+
 一个 Manifest V3 Chrome 扩展，用于扫描当前网页中的二维码，并提取其中的文本或 URL。当页面存在多个二维码时，可以在弹窗中手动选择后复制或打开；也可以手动框选屏幕区域进行识别。
 
 ## 功能
@@ -31,7 +33,8 @@
 │       └── jsqr.LICENSE.txt
 ├── tools/
 │   └── generate-icons.mjs
-└── README.md
+├── README.md
+└── README.en.md
 ```
 
 ## 安装
